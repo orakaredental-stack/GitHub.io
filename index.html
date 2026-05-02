@@ -1416,45 +1416,44 @@ function submitBooking() {
   var btn = document.getElementById('confirmBtn');
   btn.textContent = 'Booking...';
   btn.disabled = true;
+  document.getElementById('bookingError').style.display = 'none';
 
-  var payload = {
-    action: 'book',
-    name: bookingState.name,
-    phone: bookingState.phone,
-    email: bookingState.email,
+  // Build GET URL with params — works cross-origin with Google Apps Script
+  var params = new URLSearchParams({
+    action:  'book',
+    name:    bookingState.name,
+    phone:   bookingState.phone,
+    email:   bookingState.email,
     service: bookingState.service,
-    date: bookingState.dateStr,
-    slot: bookingState.slot,
-    notes: bookingState.notes
-  };
+    date:    bookingState.dateStr,
+    slot:    bookingState.slot,
+    notes:   bookingState.notes || ''
+  });
 
-  fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(payload)
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    if (data.status === 'success') {
-      showSuccess();
-    } else if (data.status === 'slot_taken') {
+  fetch(APPS_SCRIPT_URL + '?' + params.toString(), { method: 'GET' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.status === 'success') {
+        showSuccess();
+      } else if (data.status === 'slot_taken') {
+        var errEl = document.getElementById('bookingError');
+        errEl.textContent = '⚠ This slot was just booked by someone else. Please go back and choose another time.';
+        errEl.style.display = 'block';
+        btn.textContent = '✓ Confirm & Book Appointment';
+        btn.disabled = false;
+      } else {
+        throw new Error(data.message || 'Unknown error');
+      }
+    })
+    .catch(function(err) {
       var errEl = document.getElementById('bookingError');
-      errEl.textContent = '⚠ This slot was just booked by someone else. Please go back and choose another time.';
+      errEl.textContent = '⚠ Could not complete booking. Please call us at +91 82182 75875 or try again.';
       errEl.style.display = 'block';
       btn.textContent = '✓ Confirm & Book Appointment';
       btn.disabled = false;
-    } else {
-      throw new Error(data.message || 'Unknown error');
-    }
-  })
-  .catch(function(err) {
-    var errEl = document.getElementById('bookingError');
-    errEl.textContent = '⚠ Could not complete booking. Please call us at +91 82182 75875 or try again.';
-    errEl.style.display = 'block';
-    btn.textContent = '✓ Confirm & Book Appointment';
-    btn.disabled = false;
-  });
+    });
 }
+
 
 function showSuccess() {
   for (var s = 1; s <= 4; s++) {
