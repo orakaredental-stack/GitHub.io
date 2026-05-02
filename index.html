@@ -451,6 +451,12 @@ footer{background:var(--olive-dark);color:rgba(255,255,255,0.7);padding:2.5rem 2
 .hero-ai-badge{animation:badgePop 3s ease-in-out infinite;}
 @keyframes badgePop{0%,100%{box-shadow:0 4px 16px rgba(107,122,63,0.3);}50%{box-shadow:0 4px 28px rgba(107,122,63,0.6);}}
 
+/* ── PHONE ISD SELECT ── */
+#f-isd{height:100%;min-height:44px;font-family:'Outfit',sans-serif;}
+#f-isd:focus{outline:none;border-color:var(--olive)!important;box-shadow:0 0 0 3px rgba(107,122,63,0.15);}
+/* ── VALIDATION ERRORS ── */
+.form-group input.invalid,.form-group select.invalid{border-color:#e53935!important;}
+
 </style>
 </head>
 <body>
@@ -704,7 +710,7 @@ footer{background:var(--olive-dark);color:rgba(255,255,255,0.7);padding:2.5rem 2
 </section>
 
 <!-- SERVICE MODAL -->
-<div id="serviceModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closeService()">
+<div id="serviceModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;padding:1rem;" id="serviceModalBackdrop">
   <div style="background:white;border-radius:16px;max-width:540px;width:100%;padding:2.5rem;position:relative;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.2);">
     <button onclick="closeService()" style="position:absolute;top:1rem;right:1rem;background:var(--olive-pale);border:none;font-size:18px;cursor:pointer;color:var(--text-light);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;">✕</button>
     <div id="modalIcon" style="font-size:42px;margin-bottom:0.75rem;"></div>
@@ -970,12 +976,41 @@ footer{background:var(--olive-dark);color:rgba(255,255,255,0.7);padding:2.5rem 2
         <!-- STEP 1: Patient Details -->
         <div class="booking-step" id="bstep-1">
           <div class="form-row">
-            <div class="form-group"><label>Full Name *</label><input type="text" id="f-name" placeholder="Your full name"/></div>
-            <div class="form-group"><label>Phone Number *</label><input type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX"/></div>
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="f-name" placeholder="Your full name"/>
+                <div id="name-error" style="color:#e53935;font-size:11px;margin-top:4px;display:none;">Please enter your name</div>
+              </div>
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <div style="display:flex;gap:8px;align-items:stretch;">
+                  <select id="f-isd" style="width:90px;flex-shrink:0;border:1.5px solid var(--border);border-radius:6px;padding:10px 6px;font-size:13px;background:white;color:var(--text);cursor:pointer;">
+                    <option value="+91">🇮🇳 +91</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+971">🇦🇪 +971</option>
+                    <option value="+61">🇦🇺 +61</option>
+                    <option value="+65">🇸🇬 +65</option>
+                    <option value="+60">🇲🇾 +60</option>
+                    <option value="+974">🇶🇦 +974</option>
+                    <option value="+966">🇸🇦 +966</option>
+                  </select>
+                  <input type="tel" id="f-phone" placeholder="10-digit number" maxlength="10"
+                    style="flex:1;"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'');showErr('phone-error',this.value.length>0&&this.value.length!==10)"
+                  />
+                </div>
+                <div id="phone-error" style="color:#e53935;font-size:11px;margin-top:4px;display:none;">Please enter a valid 10-digit phone number</div>
+              </div>
           </div>
-          <div class="form-group"><label>Email Address *</label><input type="email" id="f-email" placeholder="your@email.com"/></div>
           <div class="form-group">
-            <label>Service *</label>
+              <label>Email Address *</label>
+              <input type="email" id="f-email" placeholder="your@email.com"/>
+              <div id="email-error" style="color:#e53935;font-size:11px;margin-top:4px;display:none;">Please enter a valid email address</div>
+            </div>
+          <div class="form-group">
+            <label>Service Required *</label>
+            <div id="service-error" style="color:#e53935;font-size:11px;margin-bottom:4px;display:none;">Please select a service</div>
             <select id="f-service">
               <option value="">Select a service...</option>
               <option>Free Dental Check-Up &amp; X-Ray</option>
@@ -1090,25 +1125,31 @@ var serviceData = [
   {icon:'🌟', title:'Full Mouth Rehabilitation', desc:'Full mouth rehabilitation is a comprehensive, personalised programme that addresses all aspects of your oral health in one coordinated treatment plan. Whether you have extensive decay, multiple missing teeth, gum disease, bite issues, or severely worn-down enamel, Dr. Bansal combines the full range of restorative and aesthetic dentistry — including implants, crowns, bridges, orthodontics, and more — to rebuild your mouth from the ground up, restoring health, function, and a confident smile you deserve.'}
 ];
 function openService(idx){
-  var d=serviceData[idx];
-  document.getElementById('modalIcon').textContent=d.icon;
-  document.getElementById('modalTitle').textContent=d.title;
-  document.getElementById('modalDesc').textContent=d.desc;
-  var m=document.getElementById('serviceModal');
-  m.style.display='flex';
-  document.body.style.overflow='hidden';
+  if(idx === undefined || idx === null) return;
+  var d = serviceData[idx];
+  if(!d) return;
+  document.getElementById('modalIcon').textContent = d.icon;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalDesc').textContent = d.desc;
+  var m = document.getElementById('serviceModal');
+  m.style.cssText = 'display:flex !important;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;padding:1rem;';
+  document.body.style.overflow = 'hidden';
 }
 function closeService(){
-  document.getElementById('serviceModal').style.display='none';
-  document.body.style.overflow='';
+  var m = document.getElementById('serviceModal');
+  m.style.display = 'none';
+  document.body.style.overflow = '';
 }
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeService();});
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeService(); });
+document.addEventListener('click', function(e){
+  if(e.target && e.target.id === 'serviceModalBackdrop') closeService();
+});
 
 
 // ══════════════════════════════════════════════════════
 // BOOKING SYSTEM — Replace SCRIPT_URL with your Google Apps Script Web App URL
 // ══════════════════════════════════════════════════════
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby05oKpC5l603RZ4gOIRocBMQliDWrcX-yvBSHzSLh-pTTx5bksIxwX2JxF9LxcI5Rf/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby05oKpC5l603RZ4gOIRocBMQliDWrcX-yvBSHzSLh-pTTx5bksIxwX2JxF9LxcI5Rf/execß';
 
 var bookingState = {
   step: 1,
@@ -1116,32 +1157,52 @@ var bookingState = {
   date: null, dateStr: '', slot: '', calYear: 0, calMonth: 0
 };
 
+function showErr(id, show) {
+  var el = document.getElementById(id);
+  if (el) el.style.display = show ? 'block' : 'none';
+}
 function goToStep(n) {
   // Validate step 1
   if (n > 1) {
-    var name = document.getElementById('f-name').value.trim();
-    var phone = document.getElementById('f-phone').value.trim();
-    var email = document.getElementById('f-email').value.trim();
+    var name    = document.getElementById('f-name').value.trim();
+    var phone   = document.getElementById('f-phone').value.trim();
+    var isd     = document.getElementById('f-isd') ? document.getElementById('f-isd').value : '+91';
+    var email   = document.getElementById('f-email').value.trim();
     var service = document.getElementById('f-service').value;
-    if (!name || !phone || !email || !service) {
-      alert('Please fill in all required fields before continuing.');
+    var valid = true;
+
+    showErr('name-error',    !name);
+    showErr('phone-error',   !phone || phone.length !== 10 || !/^\d{10}$/.test(phone));
+    showErr('email-error',   !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    showErr('service-error', !service);
+
+    if (!name) valid = false;
+    if (!phone || phone.length !== 10 || !/^\d{10}$/.test(phone)) valid = false;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) valid = false;
+    if (!service) valid = false;
+
+    if (!valid) {
+      // Scroll to booking section smoothly
+      var box = document.querySelector('.booking-box');
+      if (box) box.scrollIntoView({behavior:'smooth', block:'start'});
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      alert('Please enter a valid email address.');
-      return;
-    }
-    bookingState.name = name;
-    bookingState.phone = phone;
-    bookingState.email = email;
+
+    bookingState.name    = name;
+    bookingState.phone   = isd + ' ' + phone;
+    bookingState.email   = email;
     bookingState.service = service;
-    bookingState.notes = document.getElementById('f-msg').value.trim();
+    bookingState.notes   = document.getElementById('f-msg').value.trim();
   }
   if (n > 2 && !bookingState.dateStr) {
-    alert('Please select a date.'); return;
+    var calBox = document.getElementById('bstep-2');
+    if (calBox) { calBox.style.border = '2px solid #e53935'; setTimeout(function(){ calBox.style.border=''; }, 2000); }
+    return;
   }
   if (n > 3 && !bookingState.slot) {
-    alert('Please select a time slot.'); return;
+    var slotBox = document.getElementById('bstep-3');
+    if (slotBox) { slotBox.style.border = '2px solid #e53935'; setTimeout(function(){ slotBox.style.border=''; }, 2000); }
+    return;
   }
 
   // Update step indicators
@@ -1409,8 +1470,14 @@ function resetBooking() {
   document.getElementById('f-email').value = '';
   document.getElementById('f-service').value = '';
   document.getElementById('f-msg').value = '';
+  var isdEl = document.getElementById('f-isd');
+  if (isdEl) isdEl.value = '+91';
+  ['name-error','phone-error','email-error','service-error'].forEach(function(id){
+    var el = document.getElementById(id); if(el) el.style.display='none';
+  });
   document.getElementById('bstep-success').style.display = 'none';
-  document.querySelector('.step-indicator').style.display = 'flex';
+  var si = document.querySelector('.step-indicator');
+  if (si) si.style.display = 'flex';
   goToStep(1);
 }
 
