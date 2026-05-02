@@ -131,7 +131,7 @@ section{padding:5rem 2rem;}
 /* ── SERVICES ── */
 .services{background:var(--white);}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem;}
-.service-card{border:1.5px solid var(--border);border-radius:12px;padding:1.75rem;position:relative;transition:all 0.3s;cursor:pointer;background:var(--white);overflow:hidden;}
+.service-card{border:1.5px solid var(--border);border-radius:12px;padding:1.75rem;position:relative;transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;cursor:pointer;background:var(--white);opacity:1!important;pointer-events:auto!important;}
 .service-card:hover{border-color:var(--olive);box-shadow:0 8px 32px rgba(107,122,63,0.18);transform:translateY(-4px);}
 .service-card:active{transform:translateY(-1px);box-shadow:0 4px 16px rgba(107,122,63,0.15);}
 .service-icon{width:52px;height:52px;border-radius:12px;background:var(--olive-pale);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:1rem;}
@@ -456,6 +456,13 @@ footer{background:var(--olive-dark);color:rgba(255,255,255,0.7);padding:2.5rem 2
 #f-isd:focus{outline:none;border-color:var(--olive)!important;box-shadow:0 0 0 3px rgba(107,122,63,0.15);}
 /* ── VALIDATION ERRORS ── */
 .form-group input.invalid,.form-group select.invalid{border-color:#e53935!important;}
+
+/* Protect interactive elements from animation interference */
+.submit-btn, .slot-btn, .cal-day, #bstep-1, #bstep-1 *,
+.service-card, .service-card * {
+  pointer-events: auto !important;
+}
+.submit-btn { opacity: 1 !important; }
 
 </style>
 </head>
@@ -1028,7 +1035,7 @@ footer{background:var(--olive-dark);color:rgba(255,255,255,0.7);padding:2.5rem 2
             </select>
           </div>
           <div class="form-group"><label>Notes (optional)</label><textarea id="f-msg" placeholder="Any symptoms, concerns or questions..." style="height:75px;"></textarea></div>
-          <button class="submit-btn" onclick="goToStep(2)">Next: Choose Date →</button>
+          <button class="submit-btn" id="nextDateBtn" type="button">Next: Choose Date &rarr;</button>
         </div>
 
         <!-- STEP 2: Calendar -->
@@ -1112,17 +1119,17 @@ footer{background:var(--olive-dark);color:rgba(255,255,255,0.7);padding:2.5rem 2
 <script>
 
 var serviceData = [
-  {icon:'🆓', title:'Free Dental Check-Up & X-Ray', desc:'Your first visit is completely on us. Our comprehensive dental check-up includes a thorough examination of your teeth and gums, digital X-rays for precise diagnosis, and a personalised care plan tailored to your oral health needs. Dr. Shobhna Bansal will walk you through her findings and recommend the best path forward — no pressure, no surprises.'},
-  {icon:'🦷', title:'Tooth Extraction', desc:'Tooth extractions at Orakare are conducted with precision, care, and minimal discomfort. Dr. Bansal uses advanced techniques to remove severely decayed, infected, or overcrowded teeth as painlessly as possible. Comprehensive post-extraction care is provided to ensure optimal healing and patient comfort throughout the recovery process.'},
-  {icon:'👑', title:'Crown & Bridge Placement', desc:'Crown and bridge placement restores the function and appearance of damaged or missing teeth. Each crown and bridge is custom-designed by Dr. Bansal to ensure a perfect fit and a completely natural look. These durable restorations enhance both your smile and your overall oral health for the long term.'},
-  {icon:'👶', title:'Paediatric Dental Care', desc:'Paediatric dental care at Orakare is tailored to meet the unique needs of children and adolescents. Dr. Bansal's gentle, friendly approach ensures a positive dental experience for young patients — one that builds trust, healthy habits, and a lifetime of good oral health. Both preventive and restorative treatments are available for kids of all ages.'},
-  {icon:'🔧', title:'Tooth Restoration', desc:'Tooth restoration services at Orakare focus on repairing decayed or damaged teeth with high-quality fillings, inlays, or onlays. Dr. Bansal leverages her extensive expertise to ensure every restoration is durable, functional, and aesthetically pleasing — restoring not just the tooth, but your confidence in your smile.'},
-  {icon:'🌿', title:'Root Canal Treatment', desc:'Root canal treatment saves teeth that have been affected by deep decay or infection. Dr. Bansal uses advanced, minimally invasive techniques to remove the damaged pulp, thoroughly clean the canal, and seal it to prevent further infection. The procedure relieves pain, preserves the natural tooth, and ensures long-term dental health.'},
-  {icon:'😁', title:'Orthodontic Treatment (Braces)', desc:'Orakare offers personalised orthodontic treatment with braces to correct misaligned teeth and jaws. Dr. Bansal creates a customised treatment plan for each patient, gradually guiding teeth into their optimal position. The result: improved aesthetics, better bite function, and a beautiful, healthy smile you'll be proud of.'},
-  {icon:'🦴', title:'Complete & Partial Denture Fabrication', desc:'Orakare provides custom-made complete and partial dentures to replace missing teeth. Each denture is crafted for a comfortable, secure fit and a natural appearance. With well-fitted dentures from Dr. Bansal, patients regain the ability to eat, speak clearly, and smile confidently — significantly improving quality of life.'},
-  {icon:'🔬', title:'Oral Medicine & Radiology', desc:'With specialised training in Oral Medicine & Radiology, Dr. Bansal brings a level of diagnostic precision that goes beyond a routine check-up. Using advanced digital X-rays and thorough clinical assessment, she identifies conditions early — from oral lesions to systemic manifestations in the mouth — ensuring you receive accurate, targeted treatment from the very first visit.'},
-  {icon:'🔩', title:'Dental Implants', desc:'Dental implants are the gold standard for replacing missing teeth permanently. A small titanium post is surgically placed into the jawbone, fusing with the bone to act as an artificial root. Dr. Bansal then places a custom crown on top, giving you a completely natural-looking and fully functional tooth that can last a lifetime with proper care. Implants preserve jawbone density, prevent neighbouring teeth from shifting, and restore your smile and confidence completely.'},
-  {icon:'🌟', title:'Full Mouth Rehabilitation', desc:'Full mouth rehabilitation is a comprehensive, personalised programme that addresses all aspects of your oral health in one coordinated treatment plan. Whether you have extensive decay, multiple missing teeth, gum disease, bite issues, or severely worn-down enamel, Dr. Bansal combines the full range of restorative and aesthetic dentistry — including implants, crowns, bridges, orthodontics, and more — to rebuild your mouth from the ground up, restoring health, function, and a confident smile you deserve.'}
+  {icon:'🆓', title:'Free Dental Check-Up & X-Ray', desc:'Your first visit is completely on us. Our comprehensive dental check-up includes a thorough examination of your teeth and gums, digital X-rays for precise diagnosis, and a personalised care plan tailored to your oral health needs. Dr. Shobhna Bansal will walk you through her findings and recommend the best path forward.'},
+  {icon:'🦷', title:'Tooth Extraction', desc:'Tooth extractions at Orakare are conducted with precision, care, and minimal discomfort. Advanced techniques are used to remove severely decayed, infected, or overcrowded teeth as painlessly as possible. Comprehensive post-extraction care is provided to ensure optimal healing and comfort throughout recovery.'},
+  {icon:'👑', title:'Crown & Bridge Placement', desc:'Crown and bridge placement restores the function and appearance of damaged or missing teeth. Each crown and bridge is custom-designed to ensure a perfect fit and a completely natural look. These durable restorations enhance both your smile and your overall oral health for the long term.'},
+  {icon:'👶', title:'Paediatric Dental Care', desc:'Paediatric dental care at Orakare is tailored to meet the unique needs of children and adolescents. A gentle, friendly approach ensures a positive dental experience for young patients, building trust, healthy habits, and a lifetime of good oral health. Both preventive and restorative treatments are available for kids of all ages.'},
+  {icon:'🔧', title:'Tooth Restoration', desc:'Tooth restoration services focus on repairing decayed or damaged teeth with high-quality fillings, inlays, or onlays. Every restoration is durable, functional, and aesthetically pleasing, restoring not just the tooth but your confidence in your smile.'},
+  {icon:'🌿', title:'Root Canal Treatment', desc:'Root canal treatment saves teeth affected by deep decay or infection. Minimally invasive techniques are used to remove damaged pulp, thoroughly clean the canal, and seal it to prevent further infection. The procedure relieves pain, preserves the natural tooth, and ensures long-term dental health.'},
+  {icon:'😁', title:'Orthodontic Treatment (Braces)', desc:'Orakare offers personalised orthodontic treatment with braces to correct misaligned teeth and jaws. A customised treatment plan is created for each patient, gradually guiding teeth into their optimal position. The result is improved aesthetics, better bite function, and a beautiful healthy smile.'},
+  {icon:'🦴', title:'Complete & Partial Denture Fabrication', desc:'Orakare provides custom-made complete and partial dentures to replace missing teeth. Each denture is crafted for a comfortable, secure fit and a natural appearance. With well-fitted dentures, patients regain the ability to eat, speak clearly, and smile confidently.'},
+  {icon:'🔬', title:'Oral Medicine & Radiology', desc:'With specialised training in Oral Medicine and Radiology, Dr. Bansal brings diagnostic precision that goes beyond a routine check-up. Advanced digital X-rays and thorough clinical assessment identify conditions early, from oral lesions to systemic manifestations, ensuring accurate targeted treatment from the very first visit.'},
+  {icon:'🔩', title:'Dental Implants', desc:'Dental implants are the gold standard for replacing missing teeth permanently. A small titanium post is surgically placed into the jawbone, fusing with the bone to act as an artificial root. A custom crown is then placed on top, giving you a completely natural-looking and fully functional tooth that can last a lifetime with proper care.'},
+  {icon:'🌟', title:'Full Mouth Rehabilitation', desc:'Full mouth rehabilitation is a comprehensive, personalised programme that addresses all aspects of oral health in one coordinated treatment plan. Whether dealing with extensive decay, multiple missing teeth, gum disease, bite issues, or severely worn enamel, the full range of restorative and aesthetic dentistry is combined to rebuild your mouth from the ground up.'}
 ];
 function openService(idx){
   if(idx === undefined || idx === null) return;
@@ -1149,7 +1156,7 @@ document.addEventListener('click', function(e){
 // ══════════════════════════════════════════════════════
 // BOOKING SYSTEM — Replace SCRIPT_URL with your Google Apps Script Web App URL
 // ══════════════════════════════════════════════════════
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby05oKpC5l603RZ4gOIRocBMQliDWrcX-yvBSHzSLh-pTTx5bksIxwX2JxF9LxcI5Rf/execß';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby05oKpC5l603RZ4gOIRocBMQliDWrcX-yvBSHzSLh-pTTx5bksIxwX2JxF9LxcI5Rf/exec';
 
 var bookingState = {
   step: 1,
@@ -1481,6 +1488,17 @@ function resetBooking() {
   goToStep(1);
 }
 
+
+// Next: Choose Date button
+var nextBtn = document.getElementById('nextDateBtn');
+if (nextBtn) {
+  nextBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    goToStep(2);
+  });
+}
+
 function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
 function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('open');}
 function scrollCarousel(dir){document.getElementById('reviewsCarousel').scrollBy({left:dir*340,behavior:'smooth'});}
@@ -1495,9 +1513,25 @@ function handleSubmit(){
   document.getElementById('form-success').style.display='block';
   ['f-name','f-phone','f-email','f-service','f-msg'].forEach(function(id){document.getElementById(id).value='';});
 }
-// Scroll fade-in
-var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}})},{threshold:0.08});
-document.querySelectorAll('.service-card,.tech-card,.shop-card,.testi-card,.hero-stat,.action-item').forEach(function(el){el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='opacity 0.55s ease,transform 0.55s ease';obs.observe(el);});
+// Scroll fade-in (service-cards excluded so clicks always work)
+if ('IntersectionObserver' in window) {
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        e.target.style.pointerEvents = 'auto';
+      }
+    });
+  }, {threshold: 0.08});
+  document.querySelectorAll('.tech-card,.testi-card,.hero-stat,.action-item').forEach(function(el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    el.style.pointerEvents = 'none';
+    obs.observe(el);
+  });
+}
 document.addEventListener('click',function(e){var m=document.getElementById('mobileMenu');var h=document.getElementById('hamburger');if(m.classList.contains('open')&&!m.contains(e.target)&&!h.contains(e.target))m.classList.remove('open');});
 </script>
 </body>
