@@ -1533,5 +1533,123 @@ if ('IntersectionObserver' in window) {
 }
 document.addEventListener('click',function(e){var m=document.getElementById('mobileMenu');var h=document.getElementById('hamburger');if(m.classList.contains('open')&&!m.contains(e.target)&&!h.contains(e.target))m.classList.remove('open');});
 </script>
+
+<!-- ========== DISHA AI ASSISTANT – EMBED START ========== -->
+<style>
+#disha-launcher{position:fixed;bottom:24px;left:24px;display:flex;align-items:center;gap:0;z-index:9999;cursor:pointer;border:none;background:none;padding:0;outline:none;}
+#disha-label{background:#6b7a3f;color:#fff;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;padding:10px 16px 10px 14px;border-radius:30px 0 0 30px;white-space:nowrap;box-shadow:-4px 0 18px rgba(107,122,63,0.3);display:flex;flex-direction:column;line-height:1.3;transform:translateX(8px);transition:transform 0.3s ease;}
+#disha-label .lbl-top{font-size:10px;opacity:0.82;letter-spacing:0.5px;text-transform:uppercase;}
+#disha-label .lbl-main{font-size:13px;font-weight:600;}
+#disha-bubble-btn{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#6b7a3f,#8a9a52);box-shadow:0 4px 20px rgba(107,122,63,0.5);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;position:relative;transition:transform 0.2s;z-index:1;}
+#disha-launcher:hover #disha-bubble-btn{transform:scale(1.07);}
+#disha-launcher:hover #disha-label{transform:translateX(4px);}
+.disha-ring{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(107,122,63,0.45);animation:disha-ring 2.2s ease-out infinite;}
+.disha-ring:nth-child(2){animation-delay:1.1s;}
+@keyframes disha-ring{0%{transform:scale(1);opacity:0.7;}100%{transform:scale(1.65);opacity:0;}}
+.disha-notif{position:absolute;top:1px;right:1px;width:13px;height:13px;background:#e05a5a;border-radius:50%;border:2px solid #fff;animation:disha-pulse 2.5s infinite;}
+@keyframes disha-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+#disha-panel{position:fixed;bottom:90px;left:24px;width:355px;height:580px;border-radius:18px;overflow:hidden;box-shadow:0 16px 56px rgba(0,0,0,0.18);z-index:9998;display:none;flex-direction:column;background:#fff;font-family:'Outfit',sans-serif;animation:disha-pop 0.28s cubic-bezier(0.34,1.56,0.64,1);transform-origin:bottom left;}
+#disha-panel.open{display:flex;}
+@keyframes disha-pop{from{opacity:0;transform:scale(0.88) translateY(12px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.disha-hdr{padding:13px 16px;display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#6b7a3f,#8a9a52);flex-shrink:0;}
+.disha-hav{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.disha-hname{font-size:14px;font-weight:600;color:#fff;}
+.disha-honline{display:flex;align-items:center;gap:5px;margin-top:2px;}
+.disha-honline-dot{width:6px;height:6px;border-radius:50%;background:#a8d878;}
+.disha-honline-txt{font-size:11px;color:rgba(255,255,255,0.78);}
+.disha-hclose{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;cursor:pointer;color:#fff;font-size:15px;margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.disha-hclose:hover{background:rgba(255,255,255,0.28);}
+.disha-msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;background:#fff;}
+.disha-bot-row{display:flex;gap:8px;align-items:flex-end;max-width:90%;}
+.disha-bav{width:26px;height:26px;border-radius:50%;background:#6b7a3f;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;flex-shrink:0;}
+.disha-bub{padding:9px 13px;border-radius:16px;border-bottom-left-radius:4px;background:#f4f6ee;font-size:13px;line-height:1.6;color:#1e2419;}
+.disha-usr-row{align-self:flex-end;max-width:82%;}
+.disha-usr-bub{padding:9px 13px;border-radius:16px;border-bottom-right-radius:4px;background:#6b7a3f;color:#fff;font-size:13px;line-height:1.6;}
+.disha-opts{display:flex;flex-direction:column;gap:6px;padding-left:34px;}
+.disha-opts.row{flex-direction:row;flex-wrap:wrap;}
+.disha-opt{text-align:left;padding:7px 13px;border:1px solid #6b7a3f;border-radius:20px;background:transparent;color:#6b7a3f;font-size:13px;cursor:pointer;transition:all 0.15s;font-family:'Outfit',sans-serif;}
+.disha-opt:hover{background:#6b7a3f;color:#fff;}
+.disha-opt:disabled{opacity:0.3;cursor:default;border-color:#ccc;color:#999;}
+.disha-typing-row{display:flex;gap:8px;align-items:flex-end;}
+.disha-typing{display:flex;gap:4px;padding:10px 13px;background:#f4f6ee;border-radius:16px;border-bottom-left-radius:4px;}
+.disha-dd{width:6px;height:6px;border-radius:50%;background:#999;animation:disha-b 1.2s infinite;}
+.disha-dd:nth-child(2){animation-delay:.2s}.disha-dd:nth-child(3){animation-delay:.4s}
+@keyframes disha-b{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.disha-inp-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #e8eedd;flex-shrink:0;background:#fff;}
+.disha-inp-row input{flex:1;padding:9px 13px;border:1px solid #c8d09a;border-radius:24px;font-size:13px;background:#fafaf6;color:#1e2419;outline:none;font-family:'Outfit',sans-serif;}
+.disha-inp-row input:focus{border-color:#6b7a3f;}
+.disha-sbtn{width:36px;height:36px;border-radius:50%;background:#6b7a3f;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.disha-sbtn svg{fill:#fff;width:16px;height:16px;}
+.disha-scard{border:1px solid #6b7a3f;border-radius:12px;padding:12px 14px;margin-top:6px;font-size:13px;}
+.disha-srow{display:flex;gap:8px;align-items:center;padding:5px 0;color:#1e2419;border-bottom:1px solid #e8eedd;}
+.disha-srow:last-child{border-bottom:none;}
+.disha-srow .dlbl{color:#7a8270;font-size:11px;min-width:55px;}
+.disha-care{border-left:2px solid #6b7a3f;padding:8px 12px;background:#f4f6ee;font-size:13px;line-height:1.6;color:#1e2419;margin-top:4px;}
+@media(max-width:420px){#disha-panel{width:calc(100vw - 16px);left:8px;bottom:82px;}}
+</style>
+
+<button id="disha-launcher" onclick="dishaMgr.toggle()" title="Chat with Disha – AI Assistant">
+  <div id="disha-label">
+    <span class="lbl-top">✨ AI Assistant</span>
+    <span class="lbl-main">Chat with Disha</span>
+  </div>
+  <div id="disha-bubble-btn">
+    <div class="disha-ring"></div>
+    <div class="disha-ring"></div>
+    🦷
+    <div class="disha-notif"></div>
+  </div>
+</button>
+
+<div id="disha-panel">
+  <div class="disha-hdr">
+    <div class="disha-hav">🦷</div>
+    <div>
+      <div class="disha-hname">Disha · Orakare Dental</div>
+      <div class="disha-honline"><div class="disha-honline-dot"></div><div class="disha-honline-txt">AI Assistant · Always available</div></div>
+    </div>
+    <button class="disha-hclose" onclick="dishaMgr.toggle()" title="Close">✕</button>
+  </div>
+  <div class="disha-msgs" id="disha-msgs"></div>
+  <div class="disha-inp-row" id="disha-inp" style="display:none">
+    <input type="text" id="disha-txt" placeholder="Type here..." onkeydown="if(event.key==='Enter')dishaMgr.submitTxt()"/>
+    <button class="disha-sbtn" onclick="dishaMgr.submitTxt()" title="Send">
+      <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+var dishaMgr=(function(){
+  var M,inpRow,txtIn,booking={},awaitingInput=null,initialized=false;
+  var MAIN=['Book an appointment','Clinic timings & location','Our treatments','Treatment costs','Pre-visit instructions','Post-treatment care','Call / WhatsApp us'];
+  var TREATMENTS={'Cleaning & scaling':'Professional scaling removes plaque and tartar buildup. Quick and painless — done in a single visit. ✨','Fillings':'Tooth-coloured composite fillings that blend naturally. Most done in one visit with local anaesthesia.','Root canal (RCT)':'Removes infected pulp to save your natural tooth. Done under local anaesthesia — minimal discomfort. Usually 1–2 sittings.','Extractions':'Safe and comfortable tooth removal when necessary. Simple and surgical extractions both available.','Braces & aligners':'Traditional metal braces and clear aligners — your dentist recommends the best fit.','Dental implants':'Permanent replacements for missing teeth that look and feel natural.','Crowns & bridges':'Crowns restore damaged teeth; bridges replace missing teeth anchored to adjacent ones.','Teeth whitening':'Professional in-clinic whitening — safe, supervised, and effective. Several shades brighter in one session.','Paediatric dentistry':'Child-friendly dental care in a calm, reassuring environment. 👶','Full mouth rehab':'A comprehensive plan restoring health, function, and aesthetics of all teeth.'};
+  var PRECARE={'Before a cleaning':'Brush and floss before you arrive. No special preparation needed! 🪥','Before a filling':'Eat a light meal beforehand — your mouth may be numb for a couple of hours after.','Before an RCT':'Light meal 1–2 hrs before. Inform us of medicines you are taking. Avoid alcohol 24 hrs prior. 💊','Before an extraction':'Soft meal 2–3 hrs before. No smoking 12 hrs prior. Tell us if you are on blood thinners.','Before braces fitting':'Brush thoroughly before. This is a longer sitting — carry water.','Before an implant':'Follow your dentist\'s pre-surgical instructions. Fast 6 hrs if sedation is planned.'};
+  var POSTCARE={'After extraction':'No rinsing, spitting, or straws for 24 hrs. Soft cold foods. Cold compress for swelling. Take medicines. Call if bleeding persists. 🧊','After RCT':'Avoid chewing on treated side until crown is placed. Complete all medicines. Attend follow-up. 💊','After a filling':'Avoid very hot or cold food for a few hours. Slight sensitivity settles in a day or two.','After whitening':'Avoid tea, coffee, red wine, turmeric for 48 hrs. Use sensitive toothpaste if needed. 🚫☕','With braces':'Avoid hard and sticky foods. Interdental brush after every meal. Call us if a bracket comes loose. 🦷','After implant surgery':'No hard foods or smoking for 2 weeks. Gentle saline rinse. Attend all follow-up visits.'};
+  var morningSlots=['10:00 am','10:30 am','11:00 am','11:30 am','12:00 pm','12:30 pm','1:00 pm'];
+  var eveningSlots=['5:00 pm','5:30 pm','6:00 pm','6:30 pm','7:00 pm','7:30 pm'];
+  function getNext7Days(){var days=[],now=new Date();for(var i=1;i<=10;i++){var d=new Date(now);d.setDate(now.getDate()+i);if(d.getDay()===0)continue;days.push(d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'}));if(days.length===6)break;}return days;}
+  function slotToISO(dl,sl){var months={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};var p=dl.split(' '),day=parseInt(p[1]),mon=months[p[2]],yr=new Date().getFullYear();var ts=sl.split(' '),tm=ts[0].split(':').map(Number),h=tm[0],m=tm[1];if(ts[1]==='pm'&&h!==12)h+=12;if(ts[1]==='am'&&h===12)h=0;var pad=function(n){return String(n).padStart(2,'0');};var eh=m+30>=60?h+1:h,em=(m+30)%60;return{start:yr+'-'+pad(mon+1)+'-'+pad(day)+'T'+pad(h)+':'+pad(m)+':00+05:30',end:yr+'-'+pad(mon+1)+'-'+pad(day)+'T'+pad(eh)+':'+pad(em)+':00+05:30'};}
+  function bot(html){var r=document.createElement('div');r.className='disha-bot-row';r.innerHTML='<div class="disha-bav">D</div><div class="disha-bub">'+html+'</div>';M.appendChild(r);M.scrollTop=M.scrollHeight;}
+  function usr(t){var r=document.createElement('div');r.className='disha-usr-row';r.innerHTML='<div class="disha-usr-bub">'+t+'</div>';M.appendChild(r);M.scrollTop=M.scrollHeight;}
+  function showTyping(){var t=document.createElement('div');t.className='disha-typing-row';t.id='disha-typing';t.innerHTML='<div class="disha-bav">D</div><div class="disha-typing"><div class="disha-dd"></div><div class="disha-dd"></div><div class="disha-dd"></div></div>';M.appendChild(t);M.scrollTop=M.scrollHeight;}
+  function rmTyping(){var t=document.getElementById('disha-typing');if(t)t.remove();}
+  function opts(list,cb,row){var div=document.createElement('div');div.className='disha-opts'+(row?' row':'');list.forEach(function(o){var b=document.createElement('button');b.className='disha-opt';b.textContent=o;b.onclick=function(){div.querySelectorAll('.disha-opt').forEach(function(x){x.disabled=true;});cb(o);};div.appendChild(b);});M.appendChild(div);M.scrollTop=M.scrollHeight;}
+  function showInput(ph,cb){awaitingInput=cb;inpRow.style.display='flex';txtIn.placeholder=ph;txtIn.value='';setTimeout(function(){txtIn.focus();},100);}
+  function delay(ms){return new Promise(function(r){setTimeout(r,ms);});}
+  function goHome(){showTyping();setTimeout(function(){rmTyping();bot("What else can I help you with?");opts(MAIN,handleMain);},600);}
+  function showSummary(){var times=slotToISO(booking.date,booking.slot);booking._start=times.start;booking._end=times.end;var div=document.createElement('div');div.className='disha-bot-row';div.innerHTML='<div class="disha-bav">D</div><div><div class="disha-bub">Here\'s your booking summary:</div><div class="disha-scard"><div class="disha-srow"><span class="dlbl">Name</span><strong>'+booking.name+'</strong></div><div class="disha-srow"><span class="dlbl">Phone</span><strong>'+booking.phone+'</strong></div><div class="disha-srow"><span class="dlbl">Date</span><strong>'+booking.date+'</strong></div><div class="disha-srow"><span class="dlbl">Slot</span><strong>'+booking.slot+'</strong></div></div></div>';M.appendChild(div);M.scrollTop=M.scrollHeight;}
+  function step_confirm(){showSummary();showTyping();setTimeout(function(){rmTyping();bot("Shall I confirm this appointment?");opts(['Yes, confirm!','No, change something'],function(c){usr(c);if(c==='Yes, confirm!'){bot("Confirmed! ✅ See you on <strong>"+booking.date+"</strong> at <strong>"+booking.slot+"</strong>. We\'ll see you at Orakare! 🦷");window.dispatchEvent(new CustomEvent('disha:booking',{detail:{name:booking.name,phone:booking.phone,date:booking.date,slot:booking.slot,start:booking._start,end:booking._end}}));setTimeout(goHome,1200);}else{showTyping();setTimeout(function(){rmTyping();bot("What would you like to change?");opts(['Name','Phone number','Date','Time slot'],function(ch){usr(ch);if(ch==='Name')step_name(true);else if(ch==='Phone number')step_phone(true);else if(ch==='Date')step_date(true);else step_slot(true);});},500);}});},600);}
+  function step_slot(){showTyping();setTimeout(function(){rmTyping();bot("Morning slots (10am–2pm):");opts(morningSlots,function(s){usr(s);booking.slot=s;step_confirm();},true);setTimeout(function(){bot("Evening slots (5pm–8pm):");opts(eveningSlots,function(s){usr(s);booking.slot=s;step_confirm();},true);},200);},600);}
+  function step_date(){showTyping();setTimeout(function(){rmTyping();bot("Which day works for you?");opts(getNext7Days(),function(d){usr(d);booking.date=d;step_slot();},true);},600);}
+  function step_phone(edit){showTyping();setTimeout(function(){rmTyping();bot("What\'s your phone number?");showInput("Enter 10-digit mobile number",function(val){if(!/^[6-9]\d{9}$/.test(val.replace(/\s/g,''))){usr(val);showTyping();setTimeout(function(){rmTyping();bot("Please enter a valid 10-digit Indian mobile number.");step_phone(edit);},500);return;}usr(val);booking.phone=val;if(edit)step_confirm();else step_date();});},600);}
+  function step_name(edit){showTyping();setTimeout(function(){rmTyping();bot("What\'s your name?");showInput("Enter your full name",function(val){usr(val);booking.name=val;if(edit)step_confirm();else step_phone();});},600);}
+  async function handleMain(choice){usr(choice);if(choice==='Call / WhatsApp us'){showTyping();await delay(500);rmTyping();bot("Call or WhatsApp us at <strong>82182 75875</strong> 📞<br>Mon–Sat: 10am–2pm and 5pm–8pm.");setTimeout(goHome,800);return;}if(choice==='Clinic timings & location'){showTyping();await delay(600);rmTyping();bot("🕙 <strong>Mon–Sat:</strong> 10am–2pm and 5pm–8pm<br>🚫 Closed on Sundays<br><br>📍 D-7/1, Shivlok Colony, Raipur Road,<br>Dehradun – 248008<br><br>📞 82182 75875");setTimeout(goHome,800);return;}if(choice==='Our treatments'){showTyping();await delay(600);rmTyping();bot("Which treatment would you like to know about?");opts(Object.keys(TREATMENTS),function(t){usr(t);showTyping();setTimeout(function(){rmTyping();bot(TREATMENTS[t]);setTimeout(goHome,800);},600);});return;}if(choice==='Treatment costs'){showTyping();await delay(600);rmTyping();bot("We discuss costs transparently before starting any treatment. 😊<br><br>Call or WhatsApp <strong>82182 75875</strong> for a free consultation.");setTimeout(goHome,800);return;}if(choice==='Pre-visit instructions'){showTyping();await delay(600);rmTyping();bot("Which treatment are you coming in for?");opts(Object.keys(PRECARE),function(t){usr(t);var div=document.createElement('div');div.className='disha-bot-row';div.innerHTML='<div class="disha-bav">D</div><div><div class="disha-bub">Here\'s what to do before your visit:</div><div class="disha-care">'+PRECARE[t]+'</div></div>';showTyping();setTimeout(function(){rmTyping();M.appendChild(div);M.scrollTop=M.scrollHeight;setTimeout(goHome,800);},600);});return;}if(choice==='Post-treatment care'){showTyping();await delay(600);rmTyping();bot("Which treatment did you have?");opts(Object.keys(POSTCARE),function(t){usr(t);var div=document.createElement('div');div.className='disha-bot-row';div.innerHTML='<div class="disha-bav">D</div><div><div class="disha-bub">Here\'s your aftercare guide:</div><div class="disha-care">'+POSTCARE[t]+'</div></div>';showTyping();setTimeout(function(){rmTyping();M.appendChild(div);M.scrollTop=M.scrollHeight;setTimeout(goHome,800);},600);});return;}if(choice==='Book an appointment'){booking={};step_name();return;}}
+  async function init(){M=document.getElementById('disha-msgs');inpRow=document.getElementById('disha-inp');txtIn=document.getElementById('disha-txt');showTyping();await delay(800);rmTyping();bot("Namaste! 🙏 I\'m <strong>Disha</strong>, your AI assistant at Orakare Dental Clinic.");showTyping();await delay(700);rmTyping();bot("How can I help you today?");opts(MAIN,handleMain);initialized=true;}
+  return{toggle:function(){var panel=document.getElementById('disha-panel');var isOpen=panel.classList.contains('open');if(isOpen){panel.classList.remove('open');}else{panel.classList.add('open');if(!initialized)init();}},submitTxt:function(){var v=txtIn.value.trim();if(!v||!awaitingInput)return;inpRow.style.display='none';awaitingInput(v);awaitingInput=null;}};
+})();
+</script>
+<!-- ========== DISHA AI ASSISTANT – EMBED END ========== -->
+
 </body>
 </html>
